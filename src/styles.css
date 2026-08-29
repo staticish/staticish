@@ -1,0 +1,547 @@
+/* ============================================================
+   Step Into Wonder — dark cinematic fantasy scroll experience
+   ============================================================ */
+
+:root {
+  --ink: #f4ece2;
+  --ink-dim: rgba(244, 236, 226, 0.62);
+  --night: #06040c;
+  --ember: #f0a765;
+  --rule: rgba(244, 236, 226, 0.16);
+
+  --font-display: 'Viaoda Libre', 'Times New Roman', serif;
+  --font-body: 'Imprima', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --gutter: clamp(1.25rem, 4vw, 4.5rem);
+  --wheel-r: clamp(30rem, 62vw, 58rem);
+
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: auto;
+}
+
+body {
+  margin: 0;
+  background: var(--night);
+  color: var(--ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+/* ------------------------------------------------------------
+   Stage
+   ------------------------------------------------------------ */
+
+.track {
+  position: relative;
+  width: 100%;
+}
+
+.stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  width: 100%;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 50% 55%, #150e26 0%, #08050f 55%, #04030a 100%);
+  isolation: isolate;
+}
+
+/* ------------------------------------------------------------
+   Parallax image layers
+   ------------------------------------------------------------ */
+
+.layer {
+  position: absolute;
+  inset: -8%;
+  will-change: transform, opacity;
+  transform-origin: 50% 52%;
+  pointer-events: none;
+}
+
+.layer img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.layer--world {
+  z-index: 1;
+}
+
+.layer--clouds {
+  z-index: 2;
+  mix-blend-mode: screen;
+}
+
+.layer--portal {
+  z-index: 3;
+}
+
+.vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% 50%, transparent 38%, rgba(4, 3, 10, 0.55) 78%, rgba(4, 3, 10, 0.92) 100%);
+}
+
+/* ------------------------------------------------------------
+   Curtains
+   ------------------------------------------------------------ */
+
+.curtain {
+  position: absolute;
+  top: -2%;
+  z-index: 30;
+  width: 58vw;
+  height: 104%;
+  will-change: transform;
+  transition: transform 2200ms cubic-bezier(0.16, 0.84, 0.24, 1);
+  pointer-events: none;
+  filter: drop-shadow(0 0 60px rgba(0, 0, 0, 0.75));
+}
+
+.curtain img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.curtain--left {
+  left: -4vw;
+}
+
+.curtain--right {
+  right: -4vw;
+}
+
+.curtain--right img {
+  transform: scaleX(-1);
+}
+
+/* ------------------------------------------------------------
+   Shared type
+   ------------------------------------------------------------ */
+
+.headline {
+  font-family: var(--font-display);
+  font-weight: 400;
+  margin: 0;
+  line-height: 0.92;
+  letter-spacing: 0.01em;
+  font-size: clamp(2.9rem, 9.5vw, 8.5rem);
+  text-wrap: balance;
+  text-shadow: 0 0 60px rgba(240, 167, 101, 0.28), 0 2px 30px rgba(0, 0, 0, 0.6);
+}
+
+.headline__line {
+  display: inline;
+}
+
+.headline__chevron {
+  display: inline-block;
+  margin: 0 0.32em;
+  color: var(--ember);
+  transform: translateY(-0.06em);
+  font-size: 0.82em;
+}
+
+.lede {
+  font-family: var(--font-body);
+  font-size: clamp(0.95rem, 1.45vw, 1.15rem);
+  line-height: 1.7;
+  color: var(--ink-dim);
+  max-width: 34rem;
+  margin: 1.6rem 0 0;
+}
+
+/* ------------------------------------------------------------
+   Scene one
+   ------------------------------------------------------------ */
+
+.scene-one {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  padding-block: clamp(1.1rem, 2.6vh, 2.2rem) clamp(1.1rem, 2.6vh, 2rem);
+  /* Inset far enough to clear the curtain edges that stay framing the stage. */
+  padding-inline: clamp(1.5rem, 10vw, 9rem);
+  will-change: transform, opacity;
+  /* Keeps the copy legible over the portal's glow; fades out with the scene. */
+  background: linear-gradient(
+    100deg,
+    rgba(6, 4, 12, 0.62) 0%,
+    rgba(6, 4, 12, 0.34) 34%,
+    rgba(6, 4, 12, 0.06) 62%,
+    transparent 80%
+  );
+}
+
+/* --- masthead --- */
+
+.masthead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--rule);
+  opacity: 0;
+  transform: translateY(-14px);
+  transition: opacity 1s ease 1.55s, transform 1s ease 1.55s;
+}
+
+.masthead.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+.wordmark {
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 1.5vw, 1.35rem);
+  letter-spacing: 0.06em;
+}
+
+.masthead nav ul {
+  display: flex;
+  gap: clamp(1rem, 2.4vw, 2.6rem);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.masthead a {
+  color: var(--ink-dim);
+  text-decoration: none;
+  font-size: 0.86rem;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+}
+
+.masthead a:hover,
+.masthead a:focus-visible {
+  color: var(--ink);
+}
+
+/* --- body --- */
+
+.scene-one__body {
+  align-self: center;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, auto);
+  grid-template-areas:
+    'title cards'
+    'lede  cards';
+  align-items: center;
+  column-gap: clamp(1.5rem, 5vw, 5rem);
+  padding: clamp(1rem, 4vh, 3rem) 0;
+}
+
+.scene-one__body .headline {
+  grid-area: title;
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 1.1s ease 1.75s, transform 1.1s cubic-bezier(0.2, 0.8, 0.2, 1) 1.75s;
+}
+
+.scene-one__body .lede {
+  grid-area: lede;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1s ease 1.95s, transform 1s ease 1.95s;
+}
+
+.scene-one__body.is-in .headline,
+.scene-one__body.is-in .lede {
+  opacity: 1;
+  transform: none;
+}
+
+/* --- the three rounded cards --- */
+
+.card-row {
+  grid-area: cards;
+  display: flex;
+  gap: clamp(0.6rem, 1.2vw, 1.1rem);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.card {
+  position: relative;
+  width: clamp(6.5rem, 11vw, 11rem);
+  aspect-ratio: 3 / 4;
+  border-radius: 1.6rem;
+  overflow: hidden;
+  border: 1px solid rgba(244, 236, 226, 0.14);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+  opacity: 0;
+  transform: translateY(34px);
+  transition: opacity 1s ease, transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.scene-one__body.is-in .card {
+  opacity: 1;
+  transform: none;
+}
+
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card__meta {
+  position: absolute;
+  inset: auto 0 0;
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.9rem;
+  background: linear-gradient(transparent, rgba(4, 3, 10, 0.85));
+}
+
+.card__caption {
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(244, 236, 226, 0.6);
+}
+
+.card__title {
+  font-family: var(--font-display);
+  font-size: clamp(0.9rem, 1.2vw, 1.1rem);
+}
+
+/* --- scroll cue --- */
+
+.scroll-cue {
+  justify-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.66rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(244, 236, 226, 0.45);
+  opacity: 0;
+  transition: opacity 1s ease 2.3s;
+}
+
+.scroll-cue.is-in {
+  opacity: 1;
+}
+
+.scroll-cue i {
+  width: 1px;
+  height: 2.6rem;
+  background: linear-gradient(var(--ember), transparent);
+  animation: cue 2.4s ease-in-out infinite;
+}
+
+@keyframes cue {
+  0%,
+  100% {
+    transform: scaleY(0.4);
+    transform-origin: top;
+    opacity: 0.35;
+  }
+  50% {
+    transform: scaleY(1);
+    transform-origin: top;
+    opacity: 1;
+  }
+}
+
+/* ------------------------------------------------------------
+   Scene two
+   ------------------------------------------------------------ */
+
+.scene-two {
+  position: absolute;
+  inset: 0;
+  z-index: 22;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  padding: clamp(2.5rem, 8vh, 6rem) clamp(1.5rem, 8vw, 7rem) 0;
+  text-align: center;
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
+.scene-two__copy {
+  display: grid;
+  justify-items: center;
+}
+
+.headline--two {
+  font-size: clamp(2.4rem, 7vw, 6.5rem);
+  max-width: 16ch;
+}
+
+.lede--two {
+  margin-inline: auto;
+  text-align: center;
+  max-width: 40rem;
+}
+
+/* --- the ferris wheel --- */
+
+.wheel-stage {
+  position: relative;
+  overflow: hidden;
+}
+
+.wheel {
+  position: absolute;
+  left: 50%;
+  /* The hub sits below the fold, so only the top of the arc is on screen. */
+  top: calc(var(--wheel-r) + clamp(5rem, 15vh, 11rem));
+  width: 0;
+  height: 0;
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
+
+.wheel-card {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: clamp(8rem, 15vw, 15rem);
+  aspect-ratio: 3 / 4;
+  /* Rotates about its own centre, then rides out to the rim. */
+  transform-origin: 50% 50%;
+  will-change: transform, opacity;
+}
+
+.wheel-card__inner {
+  display: grid;
+  align-content: end;
+  gap: 0.3rem;
+  width: 100%;
+  height: 100%;
+  padding: 1.1rem;
+  border-radius: 1.5rem;
+  background: linear-gradient(160deg, var(--tint), color-mix(in srgb, var(--tint) 62%, #6b5a78));
+  box-shadow: 0 26px 70px rgba(0, 0, 0, 0.5);
+  color: #2a2136;
+  text-align: left;
+  transform-origin: 50% 50%;
+}
+
+.wheel-card__index {
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  opacity: 0.62;
+}
+
+.wheel-card__title {
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 1.6vw, 1.5rem);
+  line-height: 1.1;
+}
+
+/* ------------------------------------------------------------
+   Responsive
+   ------------------------------------------------------------ */
+
+@media (max-width: 900px) {
+  .scene-one__body {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      'title'
+      'lede'
+      'cards';
+    justify-items: start;
+    row-gap: 1.6rem;
+  }
+
+  .card-row {
+    width: 100%;
+  }
+
+  .card {
+    flex: 1 1 0;
+    width: auto;
+  }
+
+  .masthead nav {
+    display: none;
+  }
+
+  .scene-one {
+    padding-inline: clamp(1.75rem, 13vw, 4.5rem);
+    background: linear-gradient(
+      to bottom,
+      rgba(6, 4, 12, 0.55) 0%,
+      rgba(6, 4, 12, 0.42) 55%,
+      rgba(6, 4, 12, 0.15) 100%
+    );
+  }
+
+  .curtain {
+    width: 74vw;
+  }
+
+  :root {
+    --wheel-r: clamp(24rem, 130vw, 46rem);
+  }
+
+  .wheel-card {
+    width: clamp(7rem, 30vw, 11rem);
+  }
+
+  /* The copy stacks taller on narrow screens, so drop the arc to match. */
+  .wheel {
+    top: calc(var(--wheel-r) + clamp(8rem, 26vh, 17rem));
+  }
+}
+
+@media (max-width: 560px) {
+  .scroll-cue {
+    display: none;
+  }
+
+  .card__meta {
+    padding: 0.6rem;
+  }
+}
+
+/* ------------------------------------------------------------
+   Reduced motion — keep the composition, drop the drift
+   ------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  .curtain {
+    transition-duration: 1ms;
+  }
+
+  .scroll-cue i {
+    animation: none;
+  }
+
+  .masthead,
+  .scene-one__body .headline,
+  .scene-one__body .lede,
+  .card {
+    transition-duration: 1ms;
+  }
+}

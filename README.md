@@ -1,72 +1,77 @@
-<h1 align="center">Ismail Olanrewaju</h1>
-<p align="center">
-  <b>Cybersecurity Analyst</b> · Defensive Security Specialist<br>
-  SOC Operations · Threat Detection · Incident Response · DFIR
-</p>
+# Step Into Wonder
 
-<p align="center">
-  <img src="https://img.shields.io/badge/SOC-Analyst-3fe08f?style=for-the-badge">
-  <img src="https://img.shields.io/badge/Splunk-SIEM-46d3ff?style=for-the-badge">
-  <img src="https://img.shields.io/badge/MITRE-ATT%26CK-a07bff?style=for-the-badge">
-  <img src="https://img.shields.io/badge/Incident-Response-ff8c42?style=for-the-badge">
-</p>
-
-<p align="center">
-  <a href="https://cyberismail.com">🌐 cyberismail.com</a> ·
-  <a href="https://linkedin.com/in/ismail-olanrewaju-093a6a221">💼 LinkedIn</a> ·
-  <a href="mailto:ismailolanrewaju0@gmail.com">✉️ Email</a>
-</p>
-
----
+A single-page immersive React + TypeScript scroll experience. Curtains open on a
+glowing portal, the camera dives through it into a new world, and a curved
+ferris-wheel slider of nine pastel cards turns as the scroll continues.
 
 ```bash
-$ whoami
-> Cybersecurity Analyst with 4+ years across SOC operations, threat detection,
-  incident response and IT security. I turn noisy logs into clear, actionable
-  intelligence — and build the detections that catch what others miss.
+npm install
+npm run dev      # http://localhost:5173
+npm run build    # type-check + production bundle into dist/
 ```
 
-### 🛡️ What I do
-- **Detect** — real-time monitoring & detection engineering in **Splunk SIEM** (SPL, dashboards, correlation rules). Tuned content to cut false positives **~30%**.
-- **Hunt** — proactive threat hunting and CTI; once caught an emerging SSH brute-force campaign *before* it tripped any alert, then built the detection and briefed senior management.
-- **Respond** — full incident-response lifecycle mapped to **MITRE ATT&CK** & **NIST CSF**; authored team-wide playbooks.
-- **Harden** — vulnerability management (Nessus/Qualys/OpenVAS), endpoint & AD security; led an OS-hardening programme that cut downtime **~20%**.
+## How it works
 
-### 🧰 Toolbox
-![Splunk](https://img.shields.io/badge/Splunk-000000?logo=splunk&logoColor=white)
-![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white)
-![Bash](https://img.shields.io/badge/Bash-4EAA25?logo=gnubash&logoColor=white)
-![PowerShell](https://img.shields.io/badge/PowerShell-5391FE?logo=powershell&logoColor=white)
-![Linux](https://img.shields.io/badge/Linux-FCC624?logo=linux&logoColor=black)
-![Wireshark](https://img.shields.io/badge/Wireshark-1679A7?logo=wireshark&logoColor=white)
-![Kali](https://img.shields.io/badge/Kali_Linux-557C94?logo=kalilinux&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)
+The whole experience is one `480vh` scroll track (`.track`) containing a single
+`position: sticky` stage. `useScrollProgress` turns the track's position into a
+0 → 1 value, and `timeline.ts` maps that one value onto every layer, so all the
+beats stay locked together:
 
-`SIEM & Detection` · `MITRE ATT&CK` · `Cyber Kill Chain` · `OSINT / CTI` · `DFIR (FTK, Volatility)` · `NIST CSF` · `ISO 27001` · `ITIL V3`
+| Progress | Beat |
+| --- | --- |
+| on load | curtains draw apart to reveal the portal, then the headline, nav and three cards fade up |
+| 0.00 → 0.26 | curtains sweep offscreen |
+| 0.00 → 0.62 | the camera accelerates through the portal |
+| 0.14 → 0.46 | scene one lifts and fades |
+| 0.26 → 0.90 | world and cloud layers settle in behind the portal |
+| 0.34 → 0.56 | portal cross-fades into the world |
+| 0.60 → 0.76 | “Forge Beyond the Real” arrives |
+| 0.62 → 1.00 | the ferris wheel rotates through all nine cards |
 
-### 📜 Certifications
-**CompTIA Security+** · **ISC2 Certified in Cybersecurity (CC)** · **ITIL V3 Foundation**
-🎓 *MSc Cyber Security (Merit) — University of Chester* · *BSc Information Technology (First Class)*
+`useMouseParallax` adds an eased pointer drift on top, at a different depth per
+layer. It is disabled for coarse pointers and for `prefers-reduced-motion`.
 
----
+The wheel carries **two** passes of the nine cards around a closed rim of
+eighteen evenly spaced slots. That keeps the arc densely populated at every
+point in the rotation; the two copies of a card sit 180° apart, so only ever one
+is on screen.
 
-### 🚀 Featured projects
-Hands-on, build-to-learn **defensive security** tools — each runs fully client-side (no servers, no data leaves the page):
+Type is Viaoda Libre for headings and Imprima for body, loaded from Google
+Fonts in `index.html`.
 
-| Project | What it does | Skills |
-|---|---|---|
-| 📡 [**Mini-SIEM Log Analyzer**](https://github.com/staticIsh/mini-siem-log-analyzer) | Parses SSH/auth logs, runs correlation rules, maps alerts to MITRE ATT&CK with the equivalent Splunk SPL | Detection engineering, SIEM, MITRE |
-| 🎣 [**Phishing & URL Analyzer**](https://github.com/staticIsh/phishing-url-analyzer) | Scores URLs & email headers for phishing indicators; explains SPF/DKIM/DMARC | CTI, email auth, triage |
-| 🔐 [**Password Strength Lab**](https://github.com/staticIsh/password-strength-lab) | Real entropy & crack-time math + attacker-style pattern cracking + CSPRNG passphrase generator | AuthN security, applied crypto |
+## Assets
 
----
+⚠️ **The five main assets are stand-ins.** The brief supplied truncated URLs
+(`…figma.site/_assets/v11/bb…`, `53…`, `ab…`, `4f…`, `fb…`) and that host is not
+reachable from the build environment, so the real files could not be fetched.
 
-### 📊 GitHub
-<p>
-  <img height="165" src="https://github-readme-stats.vercel.app/api?username=staticIsh&show_icons=true&theme=tokyonight&hide_border=true&count_private=true">
-  <img height="165" src="https://github-readme-stats.vercel.app/api/top-langs/?username=staticIsh&layout=compact&theme=tokyonight&hide_border=true">
-</p>
+Every image is resolved through one module, `src/assets.ts`. The locally
+generated SVGs in `public/assets/` match the intended composition — portal
+background, left/right curtains, world background, clouds. To use the real
+artwork, replace the right-hand side of each entry in the `ASSETS` map with the
+full CDN URL. Nothing else in the codebase needs to change.
 
----
+```ts
+export const ASSETS = {
+  portal: 'https://…/_assets/v11/bb…',
+  curtainLeft: 'https://…/_assets/v11/53…',
+  // …
+}
+```
 
-<p align="center"><i>Currently: SOC Analyst @ Amdari · open to defensive-security opportunities · also building <a href="https://meldcrew.co.uk">Meldcrew</a>.</i></p>
+## Layout
+
+```
+src/
+  App.tsx                  stage, layer stack, curtains
+  timeline.ts              the single scroll → state mapping
+  assets.ts                every image URL, in one place
+  styles.css
+  components/
+    SceneOne.tsx           headline, nav, three rounded cards
+    SceneTwo.tsx           “Forge Beyond the Real” + the ferris wheel
+  hooks/
+    useScrollProgress.ts
+    useMouseParallax.ts
+    useCurtainReveal.ts
+```
